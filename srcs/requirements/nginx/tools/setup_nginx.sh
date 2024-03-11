@@ -20,3 +20,5 @@ echo "server {
     index index.html index.htm;
   }
 }" > /etc/nginx/conf.d/inception.conf
+
+nginx -g "daemon off;"

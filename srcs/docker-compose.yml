@@ -1,42 +1,38 @@
-version: '3'
+version: '3.8'
 
-networks:
-  inception:
-    name: inception
+# networks:
+#   inception:
+#     name: inception
 
 services:
   nginx:
+    container_name: nginx
     build: ./requirements/nginx
     ports:
       - "443:443"
-    networks:
-      - inception
+    # networks:
+    #   - inception
     restart: always
 
-  wordpress:
-    build: ./requirements/wordpress
-    ports:
-      - "9000:9000"
-    depends_on:
-      - mariadb
-    environment:
+  # wordpress:
+  #   build: ./requirements/wordpress
+  #   depends_on:
+  #     - mariadb
+  #   environment:
 
-    networks:
-      - inception
-    restart: always
+  #   networks:
+  #     - inception
+  #   restart: always
 
-# 3306 is standard port for mariadb
-  mariadb:
-    build: ./requirements/mariadb
-    ports:
-      - "3306:3306"
-    volumes:
-      - /home/njantsch/data/
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    networks:
-      - inception
-    restart: always
+  # mariadb:
+  #   build: ./requirements/mariadb
+  #   volumes:
+  #     - /home/njantsch/data/
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #     MYSQL_USER: ${MYSQL_USER}
+  #     MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  #   networks:
+  #     - inception
+  #   restart: always
 
