@@ -1,8 +1,8 @@
 version: '3.8'
 
-# networks:
-#   inception:
-#     name: inception
+networks:
+  inception:
+    name: inception
 
 services:
   nginx:
@@ -10,8 +10,10 @@ services:
     build: ./requirements/nginx
     ports:
       - "443:443"
-    # networks:
-    #   - inception
+    environment:
+      CERT: ${CERT}
+    networks:
+      - inception
     restart: always
 
   # wordpress:
@@ -25,6 +27,7 @@ services:
   #   restart: always
 
   # mariadb:
+  #   container_name: mariadb
   #   build: ./requirements/mariadb
   #   volumes:
   #     - /home/njantsch/data/

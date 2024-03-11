@@ -5,8 +5,8 @@ up:
 down:
 	@cd ./srcs && docker-compose down
 
-build: down delete
+build: down
 	@cd ./srcs && docker-compose build
 
 delete:
-	@docker rmi srcs_nginx
+	@docker system prune --all --force
