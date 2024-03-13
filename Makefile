@@ -10,3 +10,6 @@ build: down
 
 delete:
 	@docker system prune --all --force
+
+# Access docker container via bash
+# docker exec -it mariadb bash
