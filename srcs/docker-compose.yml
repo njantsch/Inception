@@ -16,29 +16,40 @@ services:
   #     - inception
   #   restart: always
 
-  # wordpress:
-  #   build: ./requirements/wordpress
-  #   depends_on:
-  #     - mariadb
-  #   environment:
-
-  #   networks:
-  #     - inception
-  #   restart: always
-
-  mariadb:
-    container_name: mariadb
-    build: ./requirements/mariadb
-    # volumes:
-    #   - mariadb:/home/njantsch/data
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:80"
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DB_NAME: ${MYSQL_DB_NAME}
+      WORDPRESS_DB_HOST: mariadb:3306
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
     networks:
       - inception
     # restart: always
 
-# volumes:
-#   mariadb:
+  mariadb:
+    container_name: mariadb
+    build: ./requirements/mariadb
+    volumes:
+      - mariadb:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    networks:
+      - inception
+    restart: always
+
+volumes:
+  mariadb:
+    name: mariadb
+    driver: local
+    driver_opts:
+      device: /home/njantsch/data
+      o: bind

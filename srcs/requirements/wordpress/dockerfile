@@ -1,0 +1,9 @@
+FROM debian:bullseye
+
+RUN apt update -y \
+    && apt upgrade -y \
+    && apt install php-fpm php-mysql curl -y
+
+COPY ./tools/setup_wp.sh /usr/local/bin/
+
+CMD ["setup_wp.sh"]
