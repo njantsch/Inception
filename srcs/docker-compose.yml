@@ -5,32 +5,29 @@ networks:
     name: inception
 
 services:
-  # nginx:
-  #   container_name: nginx
-  #   build: ./requirements/nginx
-  #   ports:
-  #     - "443:443"
-  #   environment:
-  #     CERTS_: ${CERTS_}
-  #   networks:
-  #     - inception
-  #   restart: always
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    environment:
+      CERTS_: ${CERTS_}
+    networks:
+      - inception
+    restart: always
 
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress
     depends_on:
       - mariadb
-    ports:
-      - "8080:80"
-    environment:
-      WORDPRESS_DB_HOST: mariadb:3306
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+    env_file:
+      - .env
     networks:
       - inception
-    # restart: always
+    restart: always
 
   mariadb:
     container_name: mariadb
@@ -53,3 +50,4 @@ volumes:
     driver_opts:
       device: /home/njantsch/data
       o: bind
+      type: none

@@ -1,14 +1,17 @@
 server {
   listen 443 ssl;
   server_name njantsch.42.fr;
+  root /var/www/html;
+  index index.php;
 
   ssl_certificate ${CERTS_}/certificate.crt;
   ssl_certificate_key ${CERTS_}/private.key;
 
   ssl_protocols TLSv1.3;
 
-  location / {
-    root /usr/share/nginx/html;
-    index index.html index.htm;
+  location ~ [^/]\\.php(/|$) {
+    try_files $uri = 404;
+    fastcgi_pass wordpress:9000;
+
   }
 }

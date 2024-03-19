@@ -1,6 +1,6 @@
 #!/bin/bash
 
-service mariadb start
+service mariadb start 2>/dev/null
 
 sleep 5
 
