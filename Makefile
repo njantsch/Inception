@@ -11,5 +11,8 @@ build: down
 delete:
 	@docker system prune --all --force
 
+vclean:
+	@cd /home/njantsch/data && sudo rm -rf ./wordpress/* && sudo rm -rf ./mariadb/*
+
 # Access docker container via bash
 # docker exec -it mariadb bash

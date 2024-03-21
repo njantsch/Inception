@@ -5,6 +5,8 @@ networks:
     name: inception
 
 services:
+
+  # NGINX
   nginx:
     container_name: nginx
     build: ./requirements/nginx
@@ -20,6 +22,7 @@ services:
       - inception
     restart: always
 
+  # WORDPRESS
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress
@@ -33,6 +36,7 @@ services:
       - inception
     restart: always
 
+  # MARIADB
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb
@@ -43,6 +47,14 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+    networks:
+      - inception
+    restart: always
+
+  # REDIS CACHE
+  redis:
+    container_name: redis
+    build: ./requirements/bonus/redis
     networks:
       - inception
     restart: always

@@ -4,7 +4,7 @@ WORKDIR /var/www/html
 
 RUN apt update -y \
     && apt upgrade -y \
-    && apt install php-fpm php-mysql curl -y
+    && apt install php-fpm php-mysql curl redis php-redis -y
 
 COPY ./tools/setup_wp.sh /usr/local/bin/
 COPY ./conf/www.conf /
