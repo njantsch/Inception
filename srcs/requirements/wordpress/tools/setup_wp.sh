@@ -19,6 +19,10 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
                   --dbpass=$WORDPRESS_DB_PASSWORD \
                   --dbhost=$WORDPRESS_DB_HOST \
                   --allow-root
+  wp config set WP_CACHE true --allow-root
+  wp config set WP_REDIS_CLIENT phpredis --allow-root
+  wp config set WP_REDIS_HOST redis --allow-root
+  wp config set WP_REDIS_PORT 6379 --raw --allow-root
   chmod 644 wp-config.php
 fi
 
@@ -32,22 +36,15 @@ if ! wp core is-installed --allow-root >/dev/null 2>&1; then
                   --allow-root
 fi
 
-if [ ! -f "/var/www/html/wp-config.php" ]; then
-  wp user create $WORDPRESS_USER $WORDPRESS_EMAIL \
-                  --user_pass=$WORDPRESS_PASSWORD \
-                  --role=author \
-                  --allow-root
+wp user create $WORDPRESS_USER $WORDPRESS_EMAIL \
+                --user_pass=$WORDPRESS_PASSWORD \
+                --role=author \
+                --allow-root
 
-  wp config set WP_CACHE true --allow-root
-  wp config set WP_REDIS_CLIENT phpredis --allow-root
-  wp config set WP_REDIS_HOST redis --allow-root
-  wp config set WP_REDIS_PORT 6379 --raw --allow-root
+wp plugin install redis-cache --activate --allow-root
+wp plugin update --all --allow-root >/dev/null
 
-  wp plugin install redis-cache --activate --allow-root
-  wp plugin update --all --allow-root >/dev/null
-
-  wp redis enable --allow-root
-fi
+wp redis enable --allow-root
 
 cp -f /www.conf /etc/php/7.4/fpm/pool.d/
 chmod 644 /etc/php/7.4/fpm/pool.d/www.conf

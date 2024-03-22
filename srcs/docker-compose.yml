@@ -59,6 +59,23 @@ services:
       - inception
     restart: always
 
+  # FTP SERVER
+  vsftp:
+    container_name: vsftp
+    build: ./requirements/bonus/vsftp
+    volumes:
+      - wordpress:/home/${FTP_USER}/ftp/files
+    ports:
+      - "20:20"
+      - "21:21"
+      - "21000-21010:21000-21010"
+    environment:
+      FTP_USER: ${FTP_USER}
+      FTP_PASSWORD: ${FTP_PASSWORD}
+    networks:
+      - inception
+    restart: always
+
 volumes:
   mariadb:
     name: mariadb
