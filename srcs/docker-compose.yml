@@ -64,17 +64,30 @@ services:
     container_name: vsftp
     build: ./requirements/bonus/vsftp
     volumes:
-      - wordpress:/home/${FTP_USER}/ftp/files
+      - wordpress:/home/${FTP_USER}/vsftp/files
     ports:
       - "20:20"
       - "21:21"
-      - "21000-21010:21000-21010"
+      - "21100-21110:21100-21110"
     environment:
       FTP_USER: ${FTP_USER}
       FTP_PASSWORD: ${FTP_PASSWORD}
     networks:
       - inception
     restart: always
+
+  # ADMINER
+  adminer:
+    container_name: adminer
+    build: ./requirements/bonus/adminer
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:80"
+    networks:
+      - inception
+    restart: always
+
 
 volumes:
   mariadb:
