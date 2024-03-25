@@ -83,7 +83,17 @@ services:
     depends_on:
       - mariadb
     ports:
-      - "8080:80"
+      - "8082:80"
+    networks:
+      - inception
+    restart: always
+
+  # WEBSITE
+  website:
+    container_name: website
+    build: ./requirements/bonus/website
+    ports:
+      - "8083:8083"
     networks:
       - inception
     restart: always

@@ -12,5 +12,5 @@ delete:
 	@docker system prune --all --force
 
 vclean:
-	@cd /home/njantsch/data && sudo rm -rf ./wordpress/* && sudo rm -rf ./mariadb/*
+	@cd /home/njantsch/data && sudo rm -rf ./wordpress/* && sudo rm -rf ./mariadb/* && sudo rm -rf ./website/*
 
