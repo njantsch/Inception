@@ -98,6 +98,20 @@ services:
       - inception
     restart: always
 
+  # PORTAINER
+  portainer:
+    container_name: portainer
+    build: ./requirements/bonus/portainer
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      PORTAINER_PASSWORD: ${PORTAINER_PASSWORD}
+    networks:
+      - inception
+    restart: always
+
 
 volumes:
   mariadb:
