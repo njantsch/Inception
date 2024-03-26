@@ -2,7 +2,7 @@ server {
   listen 443 ssl;
   server_name njantsch.42.fr;
   root /var/www/html;
-  index index.php;
+  index index.php index.nginx-debian.html;
 
   ssl_certificate ${CERTS_}/certificate.crt;
   ssl_certificate_key ${CERTS_}/private.key;
@@ -10,7 +10,7 @@ server {
   ssl_protocols TLSv1.3;
 
   location / {
-    index wp-login.php index.php;
+    try_files $uri $uri/ /index.php$is_args$args;
   }
 
   location ~ [^/]\\.php(/|$) {
