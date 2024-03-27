@@ -1,6 +1,6 @@
 server {
   listen 443 ssl;
-  server_name njantsch.42.fr;
+  server_name ${DOMAIN_NAME};
   root /var/www/html;
   index index.php index.nginx-debian.html;
 
